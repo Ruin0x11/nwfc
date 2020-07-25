@@ -18,23 +18,18 @@
 -- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 -- FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 -- DEALINGS IN THE SOFTWARE.
---]]---------------------------------------------------------------------------
+--]] ---------------------------------------------------------------------------
+local OverlappingModel = require("nwfc.overlapping_model")
+local SimpleTiledModel = require("nwfc.simple_tiled_model")
 
-local path = (...):gsub("%.init$","")
-
-local OverlappingModel = require(path..".overlapping_model")
-local SimpleTiledModel = require(path..".simple_tiled_model")
-
-local nwfc = {
-	_VERSION = "1.0"
-}
+local nwfc = {_VERSION = "1.0"}
 
 function nwfc.newOverlappingModel(image, N, width, height, periodicInput, periodicOutput, symmetry, ground)
-	return OverlappingModel(image, N, width, height, periodicInput, periodicOutput, symmetry, ground)
+   return OverlappingModel(image, N, width, height, periodicInput, periodicOutput, symmetry, ground)
 end
 
 function nwfc.newSimpleTiledModel(data, subsetName, width, height, periodic, black)
-	return SimpleTiledModel(data, subsetName, width, height, periodic, black)
+   return SimpleTiledModel(data, subsetName, width, height, periodic, black)
 end
 
 return nwfc

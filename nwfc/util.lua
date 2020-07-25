@@ -18,78 +18,91 @@
 -- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 -- FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 -- DEALINGS IN THE SOFTWARE.
---]]---------------------------------------------------------------------------
-
+--]] ---------------------------------------------------------------------------
 local util = {}
 
 function util.random(a, r)
-	local sum = 0
-	for i = 1, #a do
-		sum = sum + a[i]
-	end
+   local sum = 0
+   for i = 1, #a do
+      sum = sum + a[i]
+   end
 
-	for i = 1, #a do
-		a[i] = a[i] / sum
-	end
+   for i = 1, #a do
+      a[i] = a[i] / sum
+   end
 
-	local i = 1
-	local x = 0
+   local i = 1
+   local x = 0
 
-	while i <= #a do
-		x = x + a[i]
-		if r <= x then
-			return i - 1
-		end
-		i = i + 1
-	end
+   while i <= #a do
+      x = x + a[i]
+      if r <= x then
+         return i - 1
+      end
+      i = i + 1
+   end
 
-	return 0
+   return 0
 end
 
 function util.colorToNumber(r, g, b, a)
-	return r * 16777216 + g * 65536 + b * 256 + a
+   return r * 16777216 + g * 65536 + b * 256 + a
 end
 
 function util.colorFromNumber(n)
-	return
-		math.floor(n / 16777216) % 256,
-		math.floor(n / 65536) % 256,
-		math.floor(n / 256) % 256,
-		n % 256
+   return math.floor(n / 16777216) % 256, math.floor(n / 65536) % 256, math.floor(n / 256) % 256, n % 256
+end
+
+function util.set(list, keep_map_part)
+   local tbl = {}
+   if keep_map_part then
+      for k, v in pairs(list) do
+         if type(k) == "number" then
+            tbl[v] = true
+         else
+            tbl[k] = v
+         end
+      end
+   else
+      for _, k in ipairs(list) do
+         tbl[k] = true
+      end
+   end
+   return tbl
 end
 
 function util.contains(a, b)
-	for _, v in ipairs(a) do
-		if v == b then
-			return true
-		end
-	end
+   for _, v in ipairs(a) do
+      if v == b then
+         return true
+      end
+   end
 
-	return false
+   return false
 end
 
 function util.splitString(str, chr)
-	local ret = {}
-	local pos = 1
+   local ret = {}
+   local pos = 1
 
-	if str then
-		while true do
-			local fpos = string.find(str, chr, pos, true)
-			if fpos == nil then
-				ret[#ret + 1] = str:sub(pos)
-				break
-			end
+   if str then
+      while true do
+         local fpos = string.find(str, chr, pos, true)
+         if fpos == nil then
+            ret[#ret + 1] = str:sub(pos)
+            break
+         end
 
-			local sub = str:sub(pos, fpos - 1)
-			if #sub > 0 then
-				ret[#ret + 1] = sub
-			end
+         local sub = str:sub(pos, fpos - 1)
+         if #sub > 0 then
+            ret[#ret + 1] = sub
+         end
 
-			pos = fpos + #chr
-		end
-	end
+         pos = fpos + #chr
+      end
+   end
 
-	return ret
+   return ret
 end
 
 return util
